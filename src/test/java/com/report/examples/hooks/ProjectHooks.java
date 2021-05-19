@@ -3,7 +3,6 @@ package com.report.examples.hooks;
 import com.report.examples.client.RequestManager;
 import com.report.examples.config.PivotalCfg;
 import com.report.examples.context.Context;
-import com.report.examples.utils.AuthenticationUtils;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.restassured.response.Response;
