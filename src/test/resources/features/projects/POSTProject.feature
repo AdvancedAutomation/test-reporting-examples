@@ -15,7 +15,7 @@ Feature: Post Project
     }
     """
     When the user sends POST request to "/projects"
-    Then verifies response should have the 204 status code
+    Then verifies response should have the 200 status code
     And verifies response body should match with "projects/postProjectResponse.json" JSON schema
     And verifies response contain the following values
       | kind             | project      |
