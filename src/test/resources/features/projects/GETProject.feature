@@ -7,7 +7,7 @@ Feature: Get Project
     Given the user sets valid authentication headers
 
   @functional @createProject @deleteProject
-  Scenario: Retrieve existing project
+  Scenario: Retrieve existing project (1100)
     When the user sends a GET request to "/projects/{id}"
     Then verifies response should have the 200 status code
     And verifies response body should match with "projects/getProjectResponse.json" JSON schema

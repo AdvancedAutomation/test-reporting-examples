@@ -6,8 +6,8 @@ Feature: Post Project
   Background: Set authentication
     Given the user sets valid authentication headers
 
-  @functional @deleteProject
-  Scenario: Create a new project
+  @functional @deleteProject @ISSUE=AUTO-1101 @TMSLINK=TC-1101 @SEVERITY=critical
+  Scenario: Create a new project (1101)
     Given the user sets the following values in the Json data
     """
     {

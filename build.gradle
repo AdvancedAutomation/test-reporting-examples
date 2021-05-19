@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id "io.qameta.allure" version "2.8.1"
 }
 
 apply plugin: 'idea'
@@ -13,15 +14,24 @@ sourceCompatibility = 1.11
 repositories {
     mavenCentral()
 }
+
 dependencies {
-    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.14.0'
-    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.0'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.14.0'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.0'
     implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.30'
     implementation group: 'io.rest-assured', name: 'rest-assured', version: '4.3.3'
     implementation group: 'io.rest-assured', name: 'json-schema-validator', version: '4.3.3'
     testImplementation group: 'io.cucumber', name: 'cucumber-java', version: '6.10.4'
     testImplementation group: 'io.cucumber', name: 'cucumber-testng', version: '6.10.4'
     testImplementation group: 'io.cucumber', name: 'cucumber-picocontainer', version: '6.10.4'
+    testImplementation group: 'io.qameta.allure', name: 'allure-cucumber6-jvm', version: '2.13.9'
+
+}
+
+allure {
+    version = '2.13.9'
+    resultsDir = file("${rootProject.rootDir}/build/allure-results")
+    reportDir = file("${rootProject.rootDir}/build/allure-report")
 }
 
 checkstyle {
@@ -41,34 +51,30 @@ tasks.withType(Pmd) {
     }
 }
 
-configurations {
-    cucumberRuntime {
-        extendsFrom testImplementation
-    }
-}
-
 task executeBDDTests(type: Test) {
     useTestNG()
     options {
-        useDefaultListeners = false
-        jvmArgs = ['-Dcucumber.plugin=rerun:build/target/rerun.txt']
+        jvmArgs = ['-Dcucumber.plugin=rerun:build/rerun.txt']
+        jvmArgs = ['-Dcucumber.plugin=io.qameta.allure.cucumber6jvm.AllureCucumber6Jvm']
         jvmArgs = ['-Dcucumber.filter.tags=' + filterTags]
         jvmArgs = ['-DcucumberThreadCount=' + cucumberThreadCount]
         jvmArgs = ['-Dtoken=' + token]
     }
     testLogging.showStandardStreams = true
     scanForTestClasses = false
+    finalizedBy 'allureReport'
 }
 
 task reExecuteBDDTests(type: Test) {
     useTestNG()
     options {
-        useDefaultListeners = false
         jvmArgs = ['-Dcucumber.plugin=rerun:build/target/rerun.txt']
-        jvmArgs = ['-Dcucumber.features=@build/target/rerun.txt']
+        jvmArgs = ['-Dcucumber.plugin=io.qameta.allure.cucumber6jvm.AllureCucumber6Jvm']
+        jvmArgs = ['-Dcucumber.features=@build/rerun.txt']
         jvmArgs = ['-DcucumberThreadCount=' + cucumberThreadCount]
         jvmArgs = ['-Dtoken=' + token]
     }
     testLogging.showStandardStreams = true
     scanForTestClasses = false
+    finalizedBy 'allureReport'
 }
