@@ -25,7 +25,7 @@ dependencies {
     testImplementation group: 'io.cucumber', name: 'cucumber-testng', version: '6.10.4'
     testImplementation group: 'io.cucumber', name: 'cucumber-picocontainer', version: '6.10.4'
     testImplementation group: 'io.qameta.allure', name: 'allure-cucumber6-jvm', version: '2.13.9'
-
+    testImplementation fileTree(dir: "${rootProject.rootDir}/libs", include: '*.jar')
 }
 
 allure {
@@ -49,6 +49,19 @@ tasks.withType(Pmd) {
         xml.enabled = false
         html.enabled = true
     }
+}
+
+task generateIDs(type: Test) {
+    useTestNG()
+    options {
+        jvmArgs = ['-Dcucumber.plugin=org.automation.IDsRetrieverCucumber6Jvm:build/ids.txt']
+        jvmArgs = ['-Dcucumber.execution.dry-run=true']
+        jvmArgs = ['-Dcucumber.filter.tags=' + filterTags]
+        jvmArgs = ['-DcucumberThreadCount=' + cucumberThreadCount]
+        jvmArgs = ['-Dtoken=' + token]
+    }
+    testLogging.showStandardStreams = true
+    scanForTestClasses = false
 }
 
 task executeBDDTests(type: Test) {
