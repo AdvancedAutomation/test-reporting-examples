@@ -1,4 +1,4 @@
-# report-samples 
+# Test Reporting Examples
 # Environment setup
 Create an account on https://www.pivotaltracker.com/ and set the following variables on gradle.properties.
 - set baseUrl = https://www.pivotaltracker.com/services/v5
