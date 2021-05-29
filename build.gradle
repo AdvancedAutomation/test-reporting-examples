@@ -55,9 +55,10 @@ task executeBDDTests(type: Test) {
     useTestNG()
     options {
         useDefaultListeners = false
-        jvmArgs = ['-Dcucumber.plugin=rerun:build/target/rerun.txt']
-        jvmArgs = ['-Dcucumber.plugin=com.epam.reportportal.cucumber.ScenarioReporter']
-//        jvmArgs = ['-Dcucumber.plugin=com.epam.reportportal.cucumber.StepReporter']
+        jvmArgs = ['-Dcucumber.plugin=rerun:build/target/rerun.txt,' +
+                           'com.epam.reportportal.cucumber.ScenarioReporter']
+        // Alternative formatter for Report Portal
+        //                 'com.epam.reportportal.cucumber.StepReporter']
         jvmArgs = ['-Dcucumber.filter.tags=' + filterTags]
         jvmArgs = ['-DcucumberThreadCount=' + cucumberThreadCount]
         jvmArgs = ['-Dtoken=' + token]
@@ -70,7 +71,9 @@ task reExecuteBDDTests(type: Test) {
     useTestNG()
     options {
         useDefaultListeners = false
-        jvmArgs = ['-Dcucumber.plugin=rerun:build/target/rerun.txt']
+        jvmArgs = ['-Dcucumber.plugin=com.epam.reportportal.cucumber.ScenarioReporter']
+        // Alternative formatter for Report Portal
+        //jvmArgs = ['-Dcucumber.plugin=com.epam.reportportal.cucumber.StepReporter']
         jvmArgs = ['-Dcucumber.features=@build/target/rerun.txt']
         jvmArgs = ['-DcucumberThreadCount=' + cucumberThreadCount]
         jvmArgs = ['-Dtoken=' + token]
