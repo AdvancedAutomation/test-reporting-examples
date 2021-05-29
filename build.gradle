@@ -64,7 +64,6 @@ task reExecuteBDDTests(type: Test) {
     useTestNG()
     options {
         useDefaultListeners = false
-        jvmArgs = ['-Dcucumber.plugin=rerun:build/target/rerun.txt']
         jvmArgs = ['-Dcucumber.features=@build/target/rerun.txt']
         jvmArgs = ['-DcucumberThreadCount=' + cucumberThreadCount]
         jvmArgs = ['-Dtoken=' + token]
